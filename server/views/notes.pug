@@ -1,0 +1,39 @@
+extends layout/index
+block content
+  .top
+    h1 NOTED!
+  #notes.container
+    .row
+      .col-sm-8
+        .maincontent.notes
+            h1.article-title Recent Notes
+            if !noteslist || !noteslist.length
+              | No comment so far. Be the first!
+            else 
+              .notes-messages
+                each item in noteslist
+                  .notes-item.item-list.media-list
+                    .notes-item.media
+                      .notes-info.media-body
+                        .notes-head
+                          .notes-title=item.title
+                        .notes-message=item.message
+                        .notes-dated=item.dated
+
+      aside.col-sm-4
+        h2.notes-form-title Add a Note...
+        if error
+          .alert.alert-danger
+            | There was an error... Please enter a message!
+        else if success 
+          .alert.alert-success
+            | NOTED!
+        form.notes-form(action='/', method='POST')
+          .form-group
+            label(for='notes-form-title') Title
+            input#notes-form-title.form-control(type='text' placeholder='Title of your note', name='noteTitle', value=noteTitle)
+          .form-group
+            label(for='notes-form-message') Message
+            textarea#notes-form-message.form-control(type='text' placeholder='What\'s on your mind?' rows='6', name='noteMessage')=noteMessage
+          button.btn.btn-default.pull-right(type='submit') Note this!
+
